@@ -186,22 +186,37 @@ select { min-height: 33px; padding: 0 26px 0 9px; font-size: 11px; }
 .evidence-metric > small { grid-column: 2; color: var(--muted); font-size: 9px; text-align: right; }
 .quality-note { padding: 9px 0 0; border-top: 1px solid #edf0f2; color: var(--muted); display: flex; align-items: center; gap: 7px; font-size: 10px; }
 .quality-note svg { color: var(--subtle); flex: none; }
-.text-finding-list { display: grid; }
-.text-finding { min-width: 0; padding: 13px 0; border-bottom: 1px solid #edf0f2; display: grid; grid-template-columns: 24px 20px minmax(210px, .8fr) minmax(250px, 1.2fr); align-items: start; column-gap: 10px; }
-.text-finding:last-child { border-bottom: 0; }
+.text-finding-list { padding: 4px 0 8px; display: grid; gap: 9px; }
+.text-finding {
+  --signal-accent: #477f78;
+  --signal-border: #b9d8d2;
+  --signal-surface: #f1f8f6;
+  min-width: 0;
+  padding: 14px 16px;
+  border: 1px solid var(--signal-border);
+  border-left: 6px solid var(--signal-accent);
+  border-radius: 3px;
+  background: var(--signal-surface);
+  display: grid;
+  grid-template-columns: 24px 34px minmax(210px, .8fr) minmax(250px, 1.2fr);
+  align-items: start;
+  column-gap: 12px;
+}
+.text-finding.critical { --signal-accent: #c43d36; --signal-border: #e5a8a3; --signal-surface: #fff3f2; }
+.text-finding.warning { --signal-accent: #d99712; --signal-border: #e8c36e; --signal-surface: #fff9e9; }
 .finding-number { color: var(--subtle); font-size: 9px; font-variant-numeric: tabular-nums; }
-.text-finding > svg { margin-top: 1px; color: var(--muted); }
-.text-finding.critical > svg { color: var(--red); }
-.text-finding.warning > svg { color: var(--orange); }
-.text-finding.notice > svg { color: var(--teal); }
+.text-finding > svg { width: 32px; height: 32px; padding: 5px; border: 2px solid currentColor; border-radius: 50%; background: #fff; color: var(--signal-accent); stroke-width: 2.5; }
+.text-finding.critical > svg,
+.text-finding.warning > svg,
+.text-finding.notice > svg { color: var(--signal-accent); }
 .text-finding-copy { min-width: 0; }
 .text-finding-copy > div { display: flex; align-items: center; flex-wrap: wrap; gap: 7px; }
 .text-finding-copy strong { color: var(--ink); font-size: 11px; font-weight: 600; }
 .text-finding p, .finding-recommendation p { margin: 4px 0 0; color: var(--muted); font-size: 10px; line-height: 1.6; }
-.signal-label { padding: 2px 4px; border-radius: 2px; color: #56616c; background: #edf0f2; font-size: 9px; }
-.signal-label.critical { color: #9b4541; background: #f8e9e7; }
-.signal-label.warning { color: #8c5e25; background: #f8f0df; }
-.signal-label.notice { color: #39786f; background: #e9f3ef; }
+.signal-label { padding: 5px 9px; border: 1px solid transparent; border-radius: 3px; color: #fff; background: var(--signal-accent); font-size: 12px; line-height: 1.1; font-weight: 750; }
+.signal-label.critical { color: #fff; background: #c43d36; border-color: #ad302a; }
+.signal-label.warning { color: #352300; background: #f2b72f; border-color: #d59608; }
+.signal-label.notice { color: #fff; background: #477f78; border-color: #326c65; }
 .finding-recommendation { padding-left: 14px; border-left: 1px solid var(--line); }
 .finding-recommendation > span { display: inline-flex; align-items: center; gap: 5px; color: #53616c; font-size: 9px; font-weight: 600; }
 .method-note { margin: -9px 0 0; color: var(--muted); font-size: 9px; line-height: 1.6; }
@@ -227,16 +242,43 @@ select { min-height: 33px; padding: 0 26px 0 9px; font-size: 11px; }
 .warnings-section .section-title-row { min-height: 48px; }
 .section-title-row h2 { font-size: 13px; }
 .section-title-row > span { color: var(--muted); font-size: 10px; }
-.warning-list { display: grid; }
-.warning-row { padding: 12px 0; border-top: 1px solid #edf0f2; display: grid; grid-template-columns: 22px minmax(220px, .9fr) minmax(240px, 1.1fr); gap: 11px; align-items: start; }
-.warning-row:first-child { border-top: 0; }
-.warning-icon { color: var(--muted); }
-.warning-row.critical .warning-icon { color: var(--red); }
-.warning-row.warning .warning-icon { color: var(--orange); }
-.warning-row.notice .warning-icon { color: var(--teal); }
+.warning-list { padding-bottom: 12px; display: grid; gap: 9px; }
+.warning-row {
+  --warning-accent: #477f78;
+  --warning-border: #b9d8d2;
+  --warning-surface: #f1f8f6;
+  padding: 14px 16px;
+  border: 1px solid var(--warning-border);
+  border-left: 6px solid var(--warning-accent);
+  border-radius: 3px;
+  background: var(--warning-surface);
+  display: grid;
+  grid-template-columns: 34px minmax(220px, .9fr) minmax(240px, 1.1fr);
+  gap: 13px;
+  align-items: start;
+}
+.warning-row.critical { --warning-accent: #c43d36; --warning-border: #e5a8a3; --warning-surface: #fff3f2; }
+.warning-row.warning { --warning-accent: #d99712; --warning-border: #e8c36e; --warning-surface: #fff9e9; }
+.warning-icon {
+  width: 32px;
+  height: 32px;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  background: #fff;
+  display: grid;
+  place-items: center;
+  color: var(--warning-accent);
+}
+.warning-icon svg { width: 19px; height: 19px; stroke-width: 2.5; }
+.warning-row.critical .warning-icon,
+.warning-row.warning .warning-icon,
+.warning-row.notice .warning-icon { color: var(--warning-accent); }
 .warning-main > div { display: flex; align-items: center; flex-wrap: wrap; gap: 7px; }
 .warning-main strong { color: var(--ink); font-size: 11px; font-weight: 600; }
-.level-label { padding: 2px 4px; border-radius: 2px; color: var(--muted); background: #edf0f2; font-size: 9px; font-weight: 550; }
+.level-label { padding: 5px 9px; border: 1px solid transparent; border-radius: 3px; color: #fff; background: var(--warning-accent); font-size: 12px; line-height: 1.1; font-weight: 750; }
+.warning-row.critical .level-label { color: #fff; background: #c43d36; border-color: #ad302a; }
+.warning-row.warning .level-label { color: #352300; background: #f2b72f; border-color: #d59608; }
+.warning-row.notice .level-label { color: #fff; background: #477f78; border-color: #326c65; }
 .warning-row p { margin: 4px 0 0; color: var(--muted); font-size: 10px; line-height: 1.55; }
 .warning-action { padding-left: 13px; border-left: 1px solid var(--line); }
 .warning-action > span { color: #53616c; font-size: 9px; font-weight: 600; }
@@ -401,7 +443,7 @@ select { min-height: 33px; padding: 0 26px 0 9px; font-size: 11px; }
   .evidence-metric > strong { font-size: 22px; }
   .evidence-metric > small { font-size: 11px; }
   .quality-note { font-size: 12px; }
-  .text-finding { padding: 14px 0; grid-template-columns: 28px 22px minmax(230px, .8fr) minmax(280px, 1.2fr); column-gap: 12px; }
+  .text-finding { padding: 16px 18px; grid-template-columns: 28px 38px minmax(230px, .8fr) minmax(280px, 1.2fr); column-gap: 13px; }
   .finding-number, .signal-label, .finding-recommendation > span, .method-note { font-size: 11px; }
   .text-finding-copy strong { font-size: 14px; }
   .text-finding p, .finding-recommendation p { font-size: 13px; line-height: 1.55; }
@@ -418,7 +460,7 @@ select { min-height: 33px; padding: 0 26px 0 9px; font-size: 11px; }
   .chart-area { height: 282px; }
   .empty-chart { font-size: 13px; }
   .warnings-section .section-title-row { min-height: 54px; }
-  .warning-row { padding: 15px 0; grid-template-columns: 24px minmax(240px, .9fr) minmax(280px, 1.1fr); }
+  .warning-row { padding: 16px 18px; grid-template-columns: 38px minmax(240px, .9fr) minmax(280px, 1.1fr); }
   .warning-main strong { font-size: 14px; }
   .level-label, .warning-action > span { font-size: 11px; }
   .warning-row p { font-size: 13px; }
@@ -458,6 +500,182 @@ select { min-height: 33px; padding: 0 26px 0 9px; font-size: 11px; }
   .chat-form textarea { min-height: 88px; padding: 13px 48px 13px 13px; font-size: 14px; }
   .chat-form button { width: 34px; height: 34px; right: 8px; bottom: 8px; }
   .chat-panel > small { font-size: 12px; }
+}
+
+@media (min-width: 1100px) {
+  .topbar { min-height: 88px; padding: 0 32px; }
+  .brand { gap: 15px; }
+  .brand-mark { width: 56px; height: 56px; border-radius: 6px; }
+  .brand-mark svg { width: 31px; height: 31px; }
+  .brand-copy { gap: 3px; }
+  .brand-copy strong { font-size: 26px; line-height: 1.1; }
+  .brand-copy small { font-size: 15px; line-height: 1.2; }
+  .topbar-status { gap: 9px; font-size: 16px; }
+  .topbar-status svg { width: 21px; height: 21px; }
+
+  .button { min-height: 46px; padding: 0 18px; font-size: 16px; }
+
+  .upload-page { min-height: calc(100vh - 88px); grid-template-columns: 282px minmax(0, 1fr); }
+  .home-rail { min-height: calc(100vh - 88px); padding: 26px 18px 20px; }
+  .rail-label { margin-bottom: 14px; font-size: 15px; }
+  .workflow-steps li { min-height: 66px; }
+  .workflow-steps strong { font-size: 17px; }
+  .workflow-steps small { font-size: 14px; }
+  .rail-privacy strong { font-size: 15px; }
+  .rail-privacy p { font-size: 13px; }
+  .upload-content { padding-top: 22px; padding-bottom: 34px; }
+  .breadcrumb, .local-status { font-size: 14px; }
+  .upload-titlebar { margin-bottom: 16px; }
+  .upload-titlebar h1 { margin-top: 6px; font-size: 40px; }
+  .upload-titlebar p { font-size: 17px; }
+  .section-heading h2, .panel-heading h2, .section-title-row h2, .output-panel > h2, .preview-heading h2 { font-size: 21px; }
+  .step-kicker, .format-badge, .panel-caption, .preview-label { font-size: 14px; }
+  .drop-zone { min-height: 180px; margin-top: 12px; padding: 18px; }
+  .drop-zone strong { font-size: 18px; }
+  .drop-zone p { margin-bottom: 11px; font-size: 15px; }
+  .sample-row strong { font-size: 16px; }
+  .sample-row p { font-size: 14px; }
+  .output-list article { padding: 10px 0; }
+  .output-list strong { font-size: 16px; }
+  .output-list p, .output-note { font-size: 14px; }
+  .preview-finding h3 { margin-top: 8px; font-size: 24px; }
+  .preview-finding p { font-size: 15px; }
+  .preview-evidence strong { font-size: 26px; }
+  .preview-metrics strong { font-size: 21px; }
+
+  .workspace-page { padding-top: 24px; }
+  .workspace-title-row h1 { margin-top: 8px; font-size: 38px; }
+  .workspace-title-row p { font-size: 16px; }
+  .back-link { font-size: 15px; }
+  .file-summary-bar strong { font-size: 16px; }
+  .file-summary-bar small, .privacy-chip, .compact-field { font-size: 14px; }
+  .mapping-table { font-size: 15px; }
+  .mapping-table th { font-size: 14px; }
+  .mapping-table td { padding-top: 11px; padding-bottom: 11px; }
+  .settings-note, .form-field, .settings-tip { font-size: 14px; }
+  select, .form-field input { font-size: 15px; }
+
+  .results-shell { min-height: calc(100vh - 88px); grid-template-columns: 292px minmax(0, 1fr); }
+  .sidebar { min-height: calc(100vh - 88px); padding: 18px 16px 16px; }
+  .sidebar nav { gap: 5px; }
+  .sidebar nav button { min-height: 58px; padding: 0 15px; gap: 13px; font-size: 17px; }
+  .sidebar nav button svg { width: 23px; height: 23px; }
+  .sidebar nav em { min-width: 24px; height: 24px; font-size: 12px; }
+  .sidebar-file { margin-top: 18px; padding: 16px 12px; gap: 11px; }
+  .sidebar-file > span svg { width: 23px; height: 23px; }
+  .sidebar-file strong { font-size: 17px; line-height: 1.35; }
+  .sidebar-file small { font-size: 14px; }
+  .sidebar-privacy { padding: 14px 12px; gap: 10px; }
+  .sidebar-privacy svg { width: 20px; height: 20px; }
+  .sidebar-privacy strong { font-size: 16px; }
+  .sidebar-privacy span { font-size: 13px; }
+  .new-analysis { min-height: 50px; margin-top: 7px; font-size: 16px; }
+  .new-analysis svg { width: 19px; height: 19px; }
+
+  .results-main { max-width: 1620px; padding: 16px clamp(20px, 2vw, 32px) 34px; }
+  .report-header { margin-bottom: 12px; }
+  .report-context { font-size: 14px; }
+  .report-header h1 { margin: 5px 0 2px; font-size: 40px; }
+  .report-header p { font-size: 17px; }
+
+  .insights-view { gap: 12px; }
+  .lead-finding { padding: 17px 28px 16px; }
+  .lead-kicker { font-size: 15px; }
+  .source-label { font-size: 13px; }
+  .lead-finding h2 { max-width: none; margin: 9px 0 5px; font-size: 44px; line-height: 1.22; }
+  .lead-body { max-width: none; font-size: 18px; line-height: 1.55; }
+  .lead-evidence { min-height: 45px; margin-top: 11px; padding: 7px 0; font-size: 15px; }
+  .lead-evidence strong, .evidence-delta { font-size: 17px; }
+  .lead-actions { margin-top: 11px; }
+  .supporting-findings, .warning-findings { padding: 0 28px 12px; }
+  .section-heading-line { min-height: 48px; }
+  .section-index, .section-caption { font-size: 14px; }
+  .section-heading-line h2 { font-size: 20px; }
+  .evidence-metrics { padding: 12px 0; }
+  .evidence-metric > span { font-size: 15px; }
+  .evidence-metric > strong { font-size: 30px; }
+  .evidence-metric > small { font-size: 13px; }
+  .quality-note { padding-top: 7px; font-size: 14px; }
+  .text-finding { padding: 14px 18px; grid-template-columns: 30px 38px minmax(260px, .85fr) minmax(320px, 1.15fr); column-gap: 13px; }
+  .finding-number, .signal-label, .finding-recommendation > span, .method-note { font-size: 13px; }
+  .text-finding-copy strong { font-size: 17px; }
+  .text-finding p, .finding-recommendation p { margin-top: 2px; font-size: 15px; line-height: 1.45; }
+  .method-note { margin-top: -3px; }
+
+  .metric-grid { padding: 13px 0; }
+  .metric-label { font-size: 15px; }
+  .metric-card > strong { margin-top: 5px; font-size: 32px; }
+  .metric-foot { margin-top: 3px; font-size: 14px; }
+  .chart-grid { gap: 18px; }
+  .chart-panel .panel-heading { min-height: 50px; }
+  .chart-panel .panel-heading h2, .section-title-row h2 { font-size: 19px; }
+  .data-count, .section-title-row > span { font-size: 14px; }
+  .warning-row { padding: 14px 18px; }
+  .warning-main strong { font-size: 17px; }
+  .level-label, .warning-action > span { font-size: 13px; }
+  .warning-row p { margin-top: 2px; font-size: 15px; line-height: 1.45; }
+  .quality-strip { padding: 10px 0; }
+  .quality-strip strong { font-size: 22px; }
+  .quality-strip span { font-size: 13px; }
+
+  .advisor-heading { padding-bottom: 10px; }
+  .advisor-heading h2 { font-size: 26px; }
+  .advisor-heading p { font-size: 15px; }
+  .advisor-empty h3 { font-size: 22px; }
+  .advisor-empty > p { font-size: 17px; }
+  .ai-connection-status { font-size: 15px; }
+  .ai-call-proof { font-size: 14px; }
+  .ai-call-proof strong { font-size: 15px; }
+  .ai-overview { padding: 13px 0 15px; font-size: 18px; line-height: 1.55; }
+  .ai-section { margin-top: 14px; }
+  .ai-section h3 { font-size: 20px; }
+  .finding, .action-list article { padding: 9px 0; }
+  .finding strong, .action-list strong { font-size: 17px; }
+  .finding p, .action-list p { font-size: 15px; line-height: 1.45; }
+  .action-list article > span { font-size: 14px; }
+  .caveat p { font-size: 15px; }
+  .chat-heading strong { font-size: 19px; }
+  .chat-heading span, .chat-message > span, .chat-panel > small { font-size: 14px; }
+  .chat-placeholder p, .chat-placeholder button { font-size: 15px; }
+  .chat-message p, .chat-form textarea { font-size: 16px; }
+}
+
+/* Make the two presentation-critical warning sections unmistakable. */
+@media (min-width: 1100px) {
+  .supporting-findings, .warning-findings { padding-bottom: 14px; }
+  .section-heading-line { min-height: 60px; }
+  .section-heading-line h2, .section-title-row h2 { font-size: 27px; font-weight: 700; }
+  .section-index { font-size: 16px; }
+  .section-caption, .section-title-row > span { font-size: 15px; }
+
+  .text-finding {
+    padding: 17px 20px;
+    grid-template-columns: 36px 42px minmax(300px, .85fr) minmax(360px, 1.15fr);
+    column-gap: 16px;
+  }
+  .finding-number { font-size: 15px; }
+  .text-finding > svg { width: 38px; height: 38px; padding: 6px; margin-top: 0; }
+  .text-finding-copy > div { gap: 11px; }
+  .text-finding-copy strong { font-size: 22px; font-weight: 700; }
+  .text-finding p, .finding-recommendation p { margin-top: 3px; font-size: 18px; line-height: 1.35; }
+  .signal-label { padding: 7px 12px; font-size: 18px; }
+  .finding-recommendation { padding-left: 16px; }
+  .finding-recommendation > span { font-size: 15px; }
+
+  .warnings-section .section-title-row { min-height: 60px; }
+  .warning-row {
+    padding: 17px 20px;
+    grid-template-columns: 42px minmax(300px, .9fr) minmax(360px, 1.1fr);
+    gap: 16px;
+  }
+  .warning-icon { width: 38px; height: 38px; }
+  .warning-icon svg { width: 23px; height: 23px; }
+  .warning-main > div { gap: 11px; }
+  .warning-main strong { font-size: 22px; font-weight: 720; }
+  .level-label { padding: 7px 12px; font-size: 18px; }
+  .warning-row p { margin-top: 3px; font-size: 17px; line-height: 1.35; }
+  .warning-action { padding-left: 16px; }
+  .warning-action > span { font-size: 15px; }
 }
 
 @media (max-width: 1000px) {
@@ -514,13 +732,13 @@ select { min-height: 33px; padding: 0 26px 0 9px; font-size: 11px; }
   .lead-finding h2 { font-size: 22px; }
   .lead-body { font-size: 11px; }
   .supporting-findings, .warning-findings { padding: 1px 15px 14px; }
-  .text-finding { grid-template-columns: 20px 18px minmax(0, 1fr); gap: 8px; }
+  .text-finding { padding: 13px 12px; grid-template-columns: 20px 34px minmax(0, 1fr); gap: 9px; }
   .finding-recommendation { grid-column: 3; margin-top: 3px; padding-left: 0; border-left: 0; }
   .metric-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 14px; }
   .metric-card { padding: 0 9px; }
   .metric-card:nth-child(odd) { padding-left: 0; border-left: 0; }
   .metric-card > strong { font-size: 16px; }
-  .warning-row { grid-template-columns: 20px minmax(0, 1fr); }
+  .warning-row { padding: 13px 12px; grid-template-columns: 34px minmax(0, 1fr); }
   .warning-action { grid-column: 2; padding: 0; border-left: 0; }
   .quality-strip { grid-template-columns: repeat(2, 1fr); row-gap: 12px; }
   .quality-strip div:nth-child(3) { padding-left: 0; border-left: 0; }

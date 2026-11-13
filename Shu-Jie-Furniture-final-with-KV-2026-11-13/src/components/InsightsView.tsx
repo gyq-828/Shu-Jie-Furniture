@@ -10,8 +10,8 @@ interface InsightsViewProps {
 }
 
 const levelLabel: Record<WarningLevel, string> = {
-  critical: '严重',
-  warning: '关注',
+  critical: '高风险',
+  warning: '需关注',
   notice: '提示',
 }
 
@@ -81,7 +81,7 @@ export function InsightsView({ result, onDashboard, onAdvisor }: InsightsViewPro
                 <span className="finding-number">{String(index + 1).padStart(2, '0')}</span>
                 <Icon size={17} aria-hidden="true" />
                 <div className="text-finding-copy">
-                  <div><strong>{warning.title}</strong><span className={`signal-label ${warning.level}`}>{levelLabel[warning.level]}</span></div>
+                  <div><span className={`signal-label ${warning.level}`}>{levelLabel[warning.level]}</span><strong>{warning.title}</strong></div>
                   <p>{warning.detail}</p>
                 </div>
                 <div className="finding-recommendation"><span><ListChecks size={14} /> 可检查动作</span><p>{warning.recommendation}</p></div>

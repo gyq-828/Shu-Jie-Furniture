@@ -303,6 +303,163 @@ select { min-height: 33px; padding: 0 26px 0 9px; font-size: 11px; }
 @keyframes spin { to { transform: rotate(360deg); } }
 @keyframes pulse { to { opacity: .3; } }
 
+/* Presentation-ready desktop scale: keeps screenshots readable in a 16:9 deck. */
+
+@media (min-width: 761px) {
+  .topbar { min-height: 64px; padding: 0 26px; }
+  .brand-mark { width: 36px; height: 36px; }
+  .brand-mark svg { width: 20px; height: 20px; }
+  .brand-copy strong { font-size: 16px; }
+  .brand-copy small { font-size: 12px; }
+  .topbar-status { font-size: 13px; }
+
+  .button { min-height: 42px; padding: 0 16px; font-size: 14px; }
+  .button.text-button { min-height: 38px; }
+
+  .upload-page { min-height: calc(100vh - 64px); grid-template-columns: 236px minmax(0, 1fr); }
+  .home-rail { min-height: calc(100vh - 64px); padding: 26px 16px 20px; }
+  .rail-label { margin-bottom: 18px; font-size: 13px; }
+  .workflow-steps li { min-height: 70px; grid-template-columns: 32px minmax(0, 1fr); gap: 11px; }
+  .workflow-steps li > span { width: 30px; height: 30px; font-size: 12px; }
+  .workflow-steps strong { font-size: 15px; }
+  .workflow-steps small { font-size: 12px; }
+  .rail-privacy strong { font-size: 12px; }
+  .rail-privacy p { font-size: 11px; }
+  .upload-content { width: min(1360px, 100%); padding: 32px 34px 46px; }
+  .breadcrumb, .local-status { font-size: 12px; }
+  .upload-titlebar h1 { font-size: 34px; }
+  .upload-titlebar p { font-size: 14px; }
+  .section-heading h2, .panel-heading h2, .section-title-row h2, .output-panel > h2, .preview-heading h2 { font-size: 18px; }
+  .step-kicker, .format-badge, .panel-caption, .preview-label { font-size: 12px; }
+  .drop-zone strong { font-size: 16px; }
+  .drop-zone p { font-size: 13px; }
+  .sample-row strong { font-size: 14px; }
+  .sample-row p { font-size: 13px; }
+  .output-list strong { font-size: 14px; }
+  .output-list p, .output-note { font-size: 12px; }
+  .preview-link { font-size: 13px; }
+  .preview-kicker { font-size: 12px; }
+  .preview-kicker em { font-size: 11px; }
+  .preview-finding h3 { font-size: 21px; }
+  .preview-finding p { font-size: 13px; }
+  .preview-evidence span, .preview-evidence small, .preview-metrics span, .preview-metrics small,
+  .breakdown-head span, .breakdown-row > span, .breakdown-row > em { font-size: 11px; }
+  .preview-evidence strong { font-size: 22px; }
+  .preview-metrics strong { font-size: 18px; }
+  .breakdown-head strong { font-size: 13px; }
+  .inline-error { font-size: 13px; }
+
+  .workspace-page { width: min(1460px, 100%); padding: 34px 32px 58px; }
+  .workspace-title-row h1 { font-size: 32px; }
+  .workspace-title-row p { font-size: 14px; }
+  .back-link { font-size: 13px; }
+  .file-summary-bar { min-height: 62px; }
+  .file-summary-bar strong { font-size: 14px; }
+  .file-summary-bar small, .privacy-chip, .compact-field { font-size: 12px; }
+  .mapping-layout { grid-template-columns: minmax(0, 1fr) 290px; }
+  select { min-height: 38px; font-size: 13px; }
+  .mapping-table { font-size: 13px; }
+  .mapping-table th { font-size: 12px; }
+  .mapping-table td { padding-top: 13px; padding-bottom: 13px; }
+  .panel-heading.compact h2 { font-size: 16px; }
+  .settings-note, .form-field, .settings-tip { font-size: 12px; }
+  .form-field input { height: 38px; font-size: 13px; }
+  .form-field em { font-size: 12px; }
+
+  .results-shell { min-height: calc(100vh - 64px); grid-template-columns: 240px minmax(0, 1fr); }
+  .sidebar { min-height: calc(100vh - 64px); padding: 18px 13px; }
+  .sidebar nav button { min-height: 46px; padding: 0 13px; gap: 11px; font-size: 14px; }
+  .sidebar nav em { min-width: 21px; height: 21px; font-size: 11px; }
+  .sidebar-file { padding: 15px 10px; }
+  .sidebar-file strong { font-size: 13px; }
+  .sidebar-file small { font-size: 12px; }
+  .sidebar-privacy strong { font-size: 13px; }
+  .sidebar-privacy span { font-size: 11px; }
+  .new-analysis { min-height: 40px; font-size: 13px; }
+
+  .results-main { max-width: 1600px; padding: 24px clamp(24px, 2.4vw, 40px) 48px; }
+  .report-header { margin-bottom: 20px; }
+  .report-context { font-size: 12px; }
+  .report-header h1 { margin-top: 7px; font-size: 32px; }
+  .report-header p { font-size: 14px; }
+  .view-loading { font-size: 14px; }
+
+  .insights-view { gap: 18px; }
+  .lead-finding { padding: 22px 28px 20px; }
+  .lead-kicker { font-size: 13px; }
+  .source-label { padding: 4px 7px; font-size: 11px; }
+  .lead-finding h2 { max-width: 1080px; margin: 12px 0 7px; font-size: 36px; }
+  .lead-body { max-width: 1100px; font-size: 15px; line-height: 1.7; }
+  .lead-evidence { min-height: 48px; margin-top: 14px; font-size: 13px; }
+  .lead-evidence strong, .evidence-delta { font-size: 14px; }
+  .supporting-findings, .warning-findings { padding-right: 28px; padding-left: 28px; }
+  .section-heading-line { min-height: 52px; }
+  .section-index, .section-caption { font-size: 12px; }
+  .section-heading-line h2 { font-size: 16px; }
+  .evidence-metrics { padding: 17px 0; }
+  .evidence-metric > span { font-size: 13px; }
+  .evidence-metric > strong { font-size: 22px; }
+  .evidence-metric > small { font-size: 11px; }
+  .quality-note { font-size: 12px; }
+  .text-finding { padding: 14px 0; grid-template-columns: 28px 22px minmax(230px, .8fr) minmax(280px, 1.2fr); column-gap: 12px; }
+  .finding-number, .signal-label, .finding-recommendation > span, .method-note { font-size: 11px; }
+  .text-finding-copy strong { font-size: 14px; }
+  .text-finding p, .finding-recommendation p { font-size: 13px; line-height: 1.55; }
+
+  .dashboard-stack { gap: 20px; }
+  .metric-grid { padding: 17px 0; }
+  .metric-label { font-size: 13px; }
+  .metric-card > strong { margin-top: 7px; font-size: 26px; }
+  .metric-foot { font-size: 12px; }
+  .chart-panel { min-height: 350px; }
+  .chart-panel .panel-heading { min-height: 56px; }
+  .chart-panel .panel-heading h2, .section-title-row h2 { font-size: 16px; }
+  .data-count, .section-title-row > span { font-size: 12px; }
+  .chart-area { height: 282px; }
+  .empty-chart { font-size: 13px; }
+  .warnings-section .section-title-row { min-height: 54px; }
+  .warning-row { padding: 15px 0; grid-template-columns: 24px minmax(240px, .9fr) minmax(280px, 1.1fr); }
+  .warning-main strong { font-size: 14px; }
+  .level-label, .warning-action > span { font-size: 11px; }
+  .warning-row p { font-size: 13px; }
+  .quality-strip strong { font-size: 18px; }
+  .quality-strip span { font-size: 11px; }
+
+  .advisor-layout { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  .advisor-main { min-height: 0; }
+  .advisor-heading { padding-bottom: 14px; }
+  .advisor-heading h2 { font-size: 22px; }
+  .advisor-heading p { font-size: 13px; }
+  .advisor-empty h3 { font-size: 18px; }
+  .advisor-empty > p { max-width: 720px; font-size: 14px; }
+  .ai-connection-status { font-size: 13px; }
+  .ai-call-proof { padding: 11px 13px; gap: 7px 16px; font-size: 12px; }
+  .ai-call-proof strong { font-size: 13px; }
+  .ai-overview { padding: 16px 0 19px; font-size: 15px; line-height: 1.7; }
+  .ai-section { margin-top: 20px; }
+  .ai-section h3 { font-size: 16px; }
+  .finding, .action-list article { padding: 13px 0; gap: 12px; }
+  .finding strong, .action-list strong { font-size: 14px; }
+  .finding p, .action-list p { font-size: 13px; line-height: 1.55; }
+  .action-list article > span { min-width: 30px; font-size: 12px; }
+  .caveat p { font-size: 13px; }
+
+  .chat-panel { width: 100%; min-height: 0; padding: 20px 0 0; border-top: 1px solid var(--line); border-left: 0; position: static; }
+  .chat-heading { min-height: 52px; }
+  .chat-heading strong { font-size: 16px; }
+  .chat-heading span { font-size: 12px; }
+  .chat-stream { min-height: 150px; max-height: 360px; padding: 15px 0; }
+  .chat-placeholder p { font-size: 13px; }
+  .chat-placeholder { display: grid; grid-template-columns: max-content repeat(2, minmax(0, 1fr)); align-items: center; gap: 0 18px; }
+  .chat-placeholder p { margin: 0; }
+  .chat-placeholder button { padding: 11px 0; font-size: 13px; }
+  .chat-message > span { font-size: 12px; }
+  .chat-message p { font-size: 14px; line-height: 1.65; }
+  .chat-form textarea { min-height: 88px; padding: 13px 48px 13px 13px; font-size: 14px; }
+  .chat-form button { width: 34px; height: 34px; right: 8px; bottom: 8px; }
+  .chat-panel > small { font-size: 12px; }
+}
+
 @media (max-width: 1000px) {
   .upload-page { grid-template-columns: 188px minmax(0, 1fr); }
   .upload-content { padding: 26px 24px 42px; }

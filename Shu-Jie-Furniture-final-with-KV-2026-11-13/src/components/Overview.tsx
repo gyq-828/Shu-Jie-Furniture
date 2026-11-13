@@ -49,8 +49,8 @@ export function Overview({ result }: OverviewProps) {
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={result.trend} margin={{ top: 12, right: 18, left: -12, bottom: 4 }}>
                 <CartesianGrid stroke="var(--line)" strokeDasharray="2 4" vertical={false} />
-                <XAxis dataKey="label" tickLine={false} axisLine={false} tick={{ fill: 'var(--muted)', fontSize: 11 }} minTickGap={20} />
-                <YAxis tickLine={false} axisLine={false} tick={{ fill: 'var(--muted)', fontSize: 11 }} tickFormatter={compactNumber} width={58} />
+                <XAxis dataKey="label" tickLine={false} axisLine={false} tick={{ fill: 'var(--muted)', fontSize: 13 }} minTickGap={20} />
+                <YAxis tickLine={false} axisLine={false} tick={{ fill: 'var(--muted)', fontSize: 13 }} tickFormatter={compactNumber} width={64} />
                 <Tooltip formatter={(value) => [formatMetric(Number(value), result.primaryMetricFormat), result.primaryMetricLabel]} contentStyle={{ borderRadius: 3, border: '1px solid var(--line)', boxShadow: 'var(--shadow)' }} />
                 <Line isAnimationActive={false} type="monotone" dataKey="value" stroke="var(--series-1)" strokeWidth={2} dot={{ r: 2.5, fill: '#ffffff', stroke: 'var(--series-1)', strokeWidth: 1.5 }} activeDot={{ r: 4 }} />
               </LineChart>
@@ -67,8 +67,8 @@ export function Overview({ result }: OverviewProps) {
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={result.rankings} layout="vertical" margin={{ top: 4, right: 24, left: 0, bottom: 4 }}>
                   <CartesianGrid stroke="var(--line)" strokeDasharray="2 4" horizontal={false} />
-                  <XAxis type="number" tickLine={false} axisLine={false} tick={{ fill: 'var(--muted)', fontSize: 11 }} tickFormatter={compactNumber} />
-                  <YAxis type="category" dataKey="name" width={82} tickLine={false} axisLine={false} tick={{ fill: 'var(--text)', fontSize: 11 }} tickFormatter={(value) => String(value).length > 7 ? `${String(value).slice(0, 7)}…` : String(value)} />
+                  <XAxis type="number" tickLine={false} axisLine={false} tick={{ fill: 'var(--muted)', fontSize: 13 }} tickFormatter={compactNumber} />
+                  <YAxis type="category" dataKey="name" width={96} tickLine={false} axisLine={false} tick={{ fill: 'var(--text)', fontSize: 13 }} tickFormatter={(value) => String(value).length > 7 ? `${String(value).slice(0, 7)}…` : String(value)} />
                   <Tooltip formatter={(value) => [formatMetric(Number(value), result.primaryMetricFormat), result.primaryMetricLabel]} contentStyle={{ borderRadius: 3, border: '1px solid var(--line)', boxShadow: 'var(--shadow)' }} />
                   <Bar isAnimationActive={false} dataKey="value" radius={[0, 2, 2, 0]} barSize={13}>
                     {result.rankings.map((item, index) => <Cell key={item.name} fill={`var(--series-${(index % 10) + 1})`} />)}

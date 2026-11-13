@@ -73,7 +73,6 @@ function normalizeAnalysis(value: Record<string, unknown>) {
   const caveats = Array.isArray(value.caveats) ? value.caveats.slice(0, 4).map((item) => cleanText(item, 180)).filter(Boolean) : []
   return {
     overview: cleanText(value.overview, 500),
-    healthScore: Math.max(0, Math.min(100, Number(value.healthScore) || 0)),
     findings,
     actions,
     caveats,
@@ -88,8 +87,9 @@ async function callDeepSeek(env: Env, messages: Array<{ role: string; content: s
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      model: env.DEEPSEEK_MODEL || 'deepseek-chat',
+      model: env.DEEPSEEK_MODEL || 'deepseek-flash',
       messages,
+      thinking: { type: 'disabled' },
       temperature: 0.2,
       max_tokens: jsonMode ? 1800 : 900,
       ...(jsonMode ? { response_format: { type: 'json_object' } } : {}),
@@ -105,7 +105,7 @@ async function callDeepSeek(env: Env, messages: Array<{ role: string; content: s
 const analysisSystemPrompt = `你是资深商务数据分析师。你只能使用用户提供的统计摘要，不得编造原始数据、因果关系或行业事实。
 明确区分“数据显示”和“可能原因”，建议必须具体、可执行、可验证。如果缺乏必要字段，必须在 caveats 说明。
 请仅返回一个 JSON 对象，不要包含 Markdown，格式为：
-{"overview":"120字内概览","healthScore":0到100数字,"findings":[{"title":"发现","evidence":"对应数据证据","level":"critical|warning|notice"}],"actions":[{"priority":"P0|P1|P2","title":"行动","detail":"执行方式和验证指标"}],"caveats":["数据局限"]}。`
+{"overview":"120字内概览","findings":[{"title":"发现","evidence":"对应数据证据","level":"critical|warning|notice"}],"actions":[{"priority":"P0|P1|P2","title":"行动","detail":"执行方式和验证指标"}],"caveats":["数据局限"]}。`
 
 export const onRequestPost: PagesFunction<Env> = async (context) => {
   const contentLength = Number(context.request.headers.get('content-length') || 0)
@@ -170,5 +170,6 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
 
 export const onRequest: PagesFunction<Env> = async (context) => {
   if (context.request.method === 'POST') return onRequestPost(context)
+  if (context.request.method === 'GET') return json({ available: Boolean(context.env.DEEPSEEK_API_KEY) })
   return json({ error: 'Method not allowed' }, 405, { Allow: 'POST' })
 }

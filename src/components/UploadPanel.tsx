@@ -1,5 +1,5 @@
 import { useRef, useState, type ChangeEvent, type DragEvent } from 'react'
-import { ArrowRight, Database, FileSpreadsheet, LockKeyhole, Sparkles, UploadCloud } from 'lucide-react'
+import { ArrowRight, Database, FileSpreadsheet, LockKeyhole, UploadCloud } from 'lucide-react'
 
 interface UploadPanelProps {
   isLoading: boolean
@@ -28,9 +28,12 @@ export function UploadPanel({ isLoading, error, onFile, onLoadSample }: UploadPa
   return (
     <main className="upload-page">
       <section className="upload-intro">
-        <div className="eyebrow"><Sparkles size={15} /> AI 经营分析工具</div>
-        <h1>从数据表中，<br />找到下一个经营动作。</h1>
-        <p>上传常见业务数据表，自动识别关键指标、捕捉异常趋势，并由 DeepSeek 生成可执行的分析建议。</p>
+        <div className="eyebrow">经营数据分析</div>
+        <h1>
+          <span className="headline-line">从数据表中，</span>
+          <span className="headline-line headline-line-action">找到下一个经营动作。</span>
+        </h1>
+        <p>上传一份业务数据表，先查看关键发现和证据；需要时再进入图表明细或请求 AI 补充解读。</p>
         <div className="trust-row" aria-label="产品特点">
           <span><LockKeyhole size={16} /> 原始文件仅在本机解析</span>
           <span><Database size={16} /> 无需注册或登录</span>

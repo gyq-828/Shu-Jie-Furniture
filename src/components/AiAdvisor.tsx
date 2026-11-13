@@ -1,7 +1,7 @@
-import { useCallback, useState, type FormEvent } from 'react'
-import { AlertCircle, ArrowUp, Bot, CheckCircle2, LoaderCircle, MessageSquareText, Sparkles } from 'lucide-react'
+import { useCallback, useEffect, useState, type FormEvent } from 'react'
+import { AlertCircle, ArrowUp, CheckCircle2, LoaderCircle, MessageSquareText, RefreshCw } from 'lucide-react'
 import type { AiAnalysis, AnalysisResult, ChatMessage } from '../types'
-import { askAiQuestion, requestAiAnalysis } from '../lib/ai'
+import { askAiQuestion, checkAiAvailability, requestAiAnalysis, type AiAvailability } from '../lib/ai'
 import { TurnstileWidget } from './TurnstileWidget'
 
 interface AiAdvisorProps {
@@ -10,6 +10,7 @@ interface AiAdvisorProps {
 
 export function AiAdvisor({ result }: AiAdvisorProps) {
   const [analysis, setAnalysis] = useState<AiAnalysis | null>(null)
+  const [aiStatus, setAiStatus] = useState<AiAvailability | 'checking'>('checking')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [question, setQuestion] = useState('')
@@ -18,6 +19,19 @@ export function AiAdvisor({ result }: AiAdvisorProps) {
   const [resetKey, setResetKey] = useState(0)
   const handleToken = useCallback((nextToken: string | null) => setToken(nextToken), [])
   const turnstileEnabled = Boolean(import.meta.env.VITE_TURNSTILE_SITE_KEY)
+
+  const refreshAvailability = useCallback(async () => {
+    setAiStatus('checking')
+    setAiStatus(await checkAiAvailability(true))
+  }, [])
+
+  useEffect(() => {
+    let active = true
+    void checkAiAvailability().then((status) => {
+      if (active) setAiStatus(status)
+    })
+    return () => { active = false }
+  }, [])
 
   const generate = async () => {
     if (turnstileEnabled && !token) return setError('请先完成人机验证。')
@@ -58,24 +72,37 @@ export function AiAdvisor({ result }: AiAdvisorProps) {
     <div className="advisor-layout">
       <section className="advisor-main">
         <div className="advisor-heading">
-          <span className="ai-icon"><Sparkles size={22} /></span>
-          <div><span className="step-kicker">DEEPSEEK 智能分析</span><h2>AI 经营顾问</h2><p>基于页面中已计算的汇总指标生成结论，不会上传原始文件。</p></div>
+          <div><span className="step-kicker">补充解读</span><h2>经营顾问</h2><p>只发送当前分析的汇总指标、趋势、排名与预警，不发送原始文件。</p></div>
         </div>
 
         {!analysis ? (
           <div className="advisor-empty">
-            <Bot size={42} strokeWidth={1.4} />
-            <h3>让 AI 解读这份数据</h3>
-            <p>DeepSeek 将结合指标趋势、分类贡献和预警结果，输出核心发现与优先行动。</p>
+            <h3>在规则结论基础上补充解读</h3>
+            <p>先看已生成的首要发现和证据；DeepSeek 可进一步整理可能解释、待验证假设与后续动作。</p>
+            <div className={`ai-connection-status ${aiStatus === 'available' ? 'connected' : aiStatus === 'unavailable' ? 'disconnected' : aiStatus === 'unreachable' ? 'delayed' : ''}`} role="status">
+              <span className="status-mark" />
+              <span>{aiStatus === 'checking' ? '正在快速检查 AI 服务（最多 4 秒）…' : aiStatus === 'available' ? 'DeepSeek 服务已配置' : aiStatus === 'unavailable' ? 'DeepSeek API Key 尚未配置' : '连接检查超时，可直接尝试生成'}</span>
+              {(aiStatus === 'unavailable' || aiStatus === 'unreachable') && (
+                <button className="ai-status-retry" type="button" onClick={() => void refreshAvailability()}><RefreshCw size={14} /> 重新检查</button>
+              )}
+            </div>
             <TurnstileWidget onToken={handleToken} resetKey={resetKey} />
-            <button className="button primary" type="button" disabled={loading} onClick={generate}>
-              {loading ? <LoaderCircle className="spin" size={17} /> : <Sparkles size={17} />}
-              {loading ? '正在思考…' : '生成 AI 诊断'}
+            <button className="button primary" type="button" disabled={loading || aiStatus === 'unavailable'} onClick={generate}>
+              {loading ? <LoaderCircle className="spin" size={17} /> : <MessageSquareText size={17} />}
+              {loading ? '正在生成解读…' : '生成补充解读'}
             </button>
           </div>
         ) : (
           <div className="ai-report">
-            <div className="health-summary"><div><span>经营健康度</span><strong>{Math.round(analysis.healthScore)}</strong><em>/100</em></div><p>{analysis.overview}</p></div>
+            {analysis.meta && (
+              <div className="ai-call-proof" aria-label="AI 接口调用凭证">
+                <strong>DeepSeek API 已响应</strong>
+                <span>模型 {analysis.meta.model}</span>
+                {analysis.meta.totalTokens !== null && <span>本次 {analysis.meta.totalTokens.toLocaleString('zh-CN')} Tokens</span>}
+                <span>{new Date(analysis.meta.completedAt).toLocaleString('zh-CN')}</span>
+              </div>
+            )}
+            <p className="ai-overview">{analysis.overview}</p>
             <div className="ai-section"><h3>核心发现</h3><div className="finding-list">{analysis.findings.map((finding, index) => <article key={`${finding.title}-${index}`} className={`finding ${finding.level}`}><AlertCircle size={17} /><div><strong>{finding.title}</strong><p>{finding.evidence}</p></div></article>)}</div></div>
             <div className="ai-section"><h3>优先行动</h3><div className="action-list">{analysis.actions.map((action, index) => <article key={`${action.title}-${index}`}><span>{action.priority}</span><div><strong>{action.title}</strong><p>{action.detail}</p></div></article>)}</div></div>
             {analysis.caveats.length > 0 && <div className="caveat"><CheckCircle2 size={16} /><p>{analysis.caveats.join('；')}</p></div>}

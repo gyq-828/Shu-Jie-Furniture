@@ -31,7 +31,9 @@ npm install
 npm run dev
 ```
 
-仅前端模式不会运行 Pages Function。如需本地调试 DeepSeek：
+开发服务器会将 `/api` 请求代理到已发布的 Cloudflare Pages Function，因此本地界面也可以直接验证线上 DeepSeek 服务。API Key 始终保存在 Cloudflare Secret 中，不会进入本地前端。
+
+如需完全在本地运行 Pages Function：
 
 1. 将 `.dev.vars.example` 复制为 `.dev.vars`，填入 DeepSeek API Key。
 2. 执行 `npm run preview:cloudflare`。
@@ -71,7 +73,7 @@ npm audit
 | 变量 | 类型 | 值 |
 | --- | --- | --- |
 | `DEEPSEEK_API_KEY` | Secret | DeepSeek 开放平台生成的 Key |
-| `DEEPSEEK_MODEL` | Variable | `deepseek-chat` |
+| `DEEPSEEK_MODEL` | Variable | `deepseek-flash` |
 
 不要使用 `VITE_` 前缀保存 API Key，否则它会进入浏览器构建产物。
 

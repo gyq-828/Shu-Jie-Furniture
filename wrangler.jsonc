@@ -2,5 +2,11 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "shu-jie-furniture",
   "compatibility_date": "2025-04-01",
-  "pages_build_output_dir": "./dist"
+  "pages_build_output_dir": "./dist",
+  "kv_namespaces": [
+    {
+      "binding": "RATE_LIMIT",
+      "id": "67eda367c910488ca5a06a6762e41dbb"
+    }
+  ]
 }

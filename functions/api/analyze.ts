@@ -6,7 +6,14 @@ interface Env {
 }
 
 interface DeepSeekResponse {
+  id?: string
+  model?: string
   choices?: Array<{ message?: { content?: string } }>
+  usage?: {
+    prompt_tokens?: number
+    completion_tokens?: number
+    total_tokens?: number
+  }
   error?: { message?: string }
 }
 
@@ -80,6 +87,7 @@ function normalizeAnalysis(value: Record<string, unknown>) {
 }
 
 async function callDeepSeek(env: Env, messages: Array<{ role: string; content: string }>, jsonMode: boolean) {
+  const requestedModel = env.DEEPSEEK_MODEL || 'deepseek-flash'
   const response = await fetch('https://api.deepseek.com/chat/completions', {
     method: 'POST',
     headers: {
@@ -87,7 +95,7 @@ async function callDeepSeek(env: Env, messages: Array<{ role: string; content: s
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      model: env.DEEPSEEK_MODEL || 'deepseek-flash',
+      model: requestedModel,
       messages,
       thinking: { type: 'disabled' },
       temperature: 0.2,
@@ -99,7 +107,18 @@ async function callDeepSeek(env: Env, messages: Array<{ role: string; content: s
   if (!response.ok) throw new Error(data.error?.message || `DeepSeek API error ${response.status}`)
   const content = data.choices?.[0]?.message?.content
   if (!content) throw new Error('DeepSeek did not return content')
-  return content
+  return {
+    content,
+    meta: {
+      provider: 'DeepSeek' as const,
+      model: data.model || requestedModel,
+      requestId: data.id || '',
+      promptTokens: typeof data.usage?.prompt_tokens === 'number' ? data.usage.prompt_tokens : null,
+      completionTokens: typeof data.usage?.completion_tokens === 'number' ? data.usage.completion_tokens : null,
+      totalTokens: typeof data.usage?.total_tokens === 'number' ? data.usage.total_tokens : null,
+      completedAt: new Date().toISOString(),
+    },
+  }
 }
 
 const analysisSystemPrompt = `你是资深商务数据分析师。你只能使用用户提供的统计摘要，不得编造原始数据、因果关系或行业事实。
@@ -139,13 +158,13 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
 
   try {
     if (mode === 'analyze') {
-      const content = await callDeepSeek(context.env, [
+      const completion = await callDeepSeek(context.env, [
         { role: 'system', content: analysisSystemPrompt },
         { role: 'user', content: `请分析以下统计摘要：\n${summaryText}` },
       ], true)
-      const result = normalizeAnalysis(parseJsonContent(content))
+      const result = normalizeAnalysis(parseJsonContent(completion.content))
       await consumeQuota(context.env, quota.key, quota.used)
-      return json({ result }, 200, { 'X-RateLimit-Remaining': String(Math.max(0, quota.remaining - 1)) })
+      return json({ result, meta: completion.meta }, 200, { 'X-RateLimit-Remaining': String(Math.max(0, quota.remaining - 1)) })
     }
 
     const question = cleanText(body.question, 600)
@@ -154,14 +173,14 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
       role: item.role === 'assistant' ? 'assistant' : 'user',
       content: cleanText(item.content, 1200),
     })).filter((item) => item.content) : []
-    const answer = await callDeepSeek(context.env, [
+    const completion = await callDeepSeek(context.env, [
       { role: 'system', content: '你是商务数据分析顾问。仅根据给定的统计摘要答复，明确区分事实与推测，回答简洁、可执行，不得编造数据。' },
       { role: 'system', content: `当前数据摘要：${summaryText}` },
       ...history,
       { role: 'user', content: question },
     ], false)
     await consumeQuota(context.env, quota.key, quota.used)
-    return json({ answer }, 200, { 'X-RateLimit-Remaining': String(Math.max(0, quota.remaining - 1)) })
+    return json({ answer: completion.content, meta: completion.meta }, 200, { 'X-RateLimit-Remaining': String(Math.max(0, quota.remaining - 1)) })
   } catch (error) {
     console.error('AI analysis failed', error instanceof Error ? error.message : error)
     return json({ error: 'AI 服务暂时不可用，请稍后重试。' }, 502)

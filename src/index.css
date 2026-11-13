@@ -1,28 +1,41 @@
 :root {
   font-family: Inter, "Segoe UI", "Microsoft YaHei", system-ui, sans-serif;
-  color: #13233a;
-  background: #f4f7f9;
+  color: var(--ink);
+  background: var(--canvas);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
-  --navy: #123451;
-  --text: #13233a;
-  --muted: #6b7b8d;
-  --subtle: #91a0af;
-  --blue: #246bce;
-  --blue-dark: #1755ad;
-  --blue-soft: #8db9ec;
-  --blue-pale: #eaf3ff;
-  --teal: #159d91;
-  --teal-pale: #e7f7f4;
-  --yellow: #e6a817;
-  --yellow-pale: #fff7df;
-  --red: #d84f4f;
-  --red-pale: #fff0f0;
+  --ink: #202a32;
+  --frame: #252d34;
+  --text: #202a32;
+  --muted: #68747e;
+  --subtle: #89939b;
+  --blue: #426f91;
+  --blue-dark: #345b78;
+  --blue-soft: #a8bdcb;
+  --blue-pale: #edf3f6;
+  --teal: #3b827d;
+  --teal-pale: #edf5f3;
+  --green: #47816a;
+  --orange: #a87939;
+  --yellow: #bd8c3b;
+  --yellow-pale: #f8f3e8;
+  --red: #a64f4b;
+  --red-pale: #f8eeed;
   --surface: #ffffff;
-  --canvas: #f4f7f9;
-  --line: #dce4ea;
-  --line-strong: #c9d4dd;
-  --shadow: 0 14px 34px rgba(24, 52, 82, 0.08);
+  --canvas: #f6f7f7;
+  --line: #e1e5e7;
+  --line-strong: #cbd2d6;
+  --shadow: 0 2px 8px rgba(32, 42, 50, 0.05);
+  --series-1: #4e79a7;
+  --series-2: #b07d4f;
+  --series-3: #67936e;
+  --series-4: #b56466;
+  --series-5: #6d9d98;
+  --series-6: #ac934a;
+  --series-7: #8c7a9b;
+  --series-8: #ba828a;
+  --series-9: #8d7667;
+  --series-10: #878f95;
 }
 
 * { box-sizing: border-box; }
@@ -32,7 +45,7 @@ button, input, select, textarea { font: inherit; letter-spacing: 0; }
 button { cursor: pointer; }
 button:disabled { cursor: not-allowed; opacity: .55; }
 a { color: inherit; }
-::selection { background: #cfe2ff; color: var(--navy); }
+::selection { background: #dce8ec; color: var(--frame); }
 
 @media print {
   @page { margin: 12mm; }

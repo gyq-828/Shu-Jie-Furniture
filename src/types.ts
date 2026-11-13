@@ -104,10 +104,20 @@ export interface AiAction {
 
 export interface AiAnalysis {
   overview: string
-  healthScore: number
   findings: AiFinding[]
   actions: AiAction[]
   caveats: string[]
+  meta?: AiCallMeta
+}
+
+export interface AiCallMeta {
+  provider: 'DeepSeek'
+  model: string
+  requestId: string
+  promptTokens: number | null
+  completionTokens: number | null
+  totalTokens: number | null
+  completedAt: string
 }
 
 export interface ChatMessage {
